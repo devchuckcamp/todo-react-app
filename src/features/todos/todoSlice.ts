@@ -31,7 +31,7 @@ const initialState: TodoState = {
     errors:[]
 }
 
-const _config = new Config()
+const _config = new Config(import.meta.env)
 
 // action/process to dispatch
 export const getTodos = createAsyncThunk<Todo[]>(

@@ -6,16 +6,7 @@ import TodoListPage from './features/todos/TodoListPage'
 import NavBar from './component/header/NavBar'
 import Container from '@mui/material/Container';
 
-import SocketServer from 'socket.io-client'
-
-import { useEffect, useRef } from 'react'
-
 function App() {
-  //const socketClient = useRef<Socket>()
-  const websocket = "http://localhost:3001"
-  useEffect( ()=>{
-    SocketServer(websocket)
-  },[])
 
   return (
    <BrowserRouter>
