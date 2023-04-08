@@ -8,9 +8,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState, useCallback, useEffect } from "react"
+import {  useCallback, useEffect } from "react"
 import { getCompletedTodos, deleteTodoByID } from '../features/todos/todoSlice'
-import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Fab } from "@mui/material";
 

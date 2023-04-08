@@ -1,4 +1,3 @@
-import { Todo } from "../interfaces/Todo"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import Grid from '@mui/material/Grid';
 import { useState, useCallback, useEffect, useRef } from "react"
@@ -31,7 +30,6 @@ const CreateTodoForm: React.FC = () => {
     }
     const onInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
         event.preventDefault()
-        console.log(event)
         let val = (event.target as HTMLInputElement).value
         setTodoName(val)
        

@@ -1,18 +1,11 @@
-import { Todo } from "../interfaces/Todo"
-import { useAppDispatch, useAppSelector } from "../store/store"
+import { useAppDispatch } from "../store/store"
 import Grid from '@mui/material/Grid';
 import { useState, useCallback, useEffect } from "react"
-import { filterTodos, filteredTodo, getCompletedTodos, getPendingTodos, getTodos } from '../features/todos/todoSlice'
+import { filterTodos, getCompletedTodos, getPendingTodos, getTodos } from '../features/todos/todoSlice'
 import Box from "@mui/material/Box";
 import React from 'react';
 import { TextField } from "@mui/material";
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import CreateTodoDto from "../interfaces/CreateTodoDto";
-
-
-
-
 
 const SearchTodoForm: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -30,10 +23,6 @@ const SearchTodoForm: React.FC = () => {
             setfilterActiive(false)
             refreshList()
         }
-
-        
-        
-        
     }
     const searchQuery = useCallback(async (query:string) => {
         console.log(query)

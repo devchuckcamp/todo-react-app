@@ -8,8 +8,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState, useCallback, useEffect } from "react"
-import { setCompletedTodos, getPendingTodos, completeTodoByID } from '../features/todos/todoSlice'
+import { useCallback, useEffect } from "react"
+import { getPendingTodos, completeTodoByID } from '../features/todos/todoSlice'
 import Checkbox from '@mui/material/Checkbox';
 
 import  React from 'react';
@@ -45,7 +45,6 @@ const TodoListPendingTable: React.FC = () => {
 
     const compelteTodo = useCallback(async (todo:Todo) => {
         await dispatch(completeTodoByID(todo))
-        //await dispatch(setCompletedTodos(todo))
     }, [dispatch])
 
     useEffect(() => {
