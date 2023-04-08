@@ -6,6 +6,7 @@ class Config {
     public api_version:string = ""
     public api_url:string = "http://localhost"
 
+    
     constructor(env:any){
         this.base_api_url = env.VITE_REACT_APP_API_BASE_URL
         this.api_port =  ':'+env.VITE_REACT_APP_API_PORT
