@@ -254,11 +254,6 @@ export const todoSlice = createSlice({
 
         .addCase(deleteAllTodos.fulfilled, (state) => {
             state = initialState
-            // state.todos= []
-            // state.pendingTodos = []
-            // state.completedTodos = []
-            // state.completedLoading = false
-            // state.createdLoading = false
         })
 
         
