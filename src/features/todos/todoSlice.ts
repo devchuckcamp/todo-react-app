@@ -4,7 +4,6 @@ import axios from "axios"
 import Config from '../../config/config'
 import CreateTodoDto from "../../interfaces/CreateTodoDto"
 import FilteredTodoDto from "../../interfaces/FilteredTodoDto"
-import https from 'https'
 
 interface TodoState {
     todos: Todo[] | null
@@ -34,18 +33,14 @@ const initialState: TodoState = {
 
 const _config = new Config(import.meta.env)
 
-const instance = axios.create({
-    httpsAgent: new https.Agent({  
-      rejectUnauthorized: false
-    })
-  });
+
 
 // action/process to dispatch
 export const getTodos = createAsyncThunk<Todo[]>(
     "todo/getList",
     async(_, thunkAPI) => {
         try{
-            const response = await instance.get(`${_config.GetAPIURL()}/todo`)
+            const response = await axios.get(`${_config.GetAPIURL()}/todo`)
             return response.data
         } catch(error) {
             return thunkAPI.rejectWithValue(error)
@@ -56,7 +51,7 @@ export const getCompletedTodos = createAsyncThunk<Todo[]>(
     "todo/getCompletedList",
     async(_, thunkAPI) => {
         try{
-            const response = await instance.get(`${_config.GetAPIURL()}/todo/completed`)
+            const response = await axios.get(`${_config.GetAPIURL()}/todo/completed`)
             return response.data
         } catch(error) {
             return thunkAPI.rejectWithValue(error)
@@ -68,7 +63,7 @@ export const getPendingTodos = createAsyncThunk<Todo[]>(
     "todo/getPendingList",
     async(_, thunkAPI) => {
         try{
-            const response = await instance.get(`${_config.GetAPIURL()}/todo/pending`)
+            const response = await axios.get(`${_config.GetAPIURL()}/todo/pending`)
             return response.data
         } catch(error) {
             return thunkAPI.rejectWithValue(error)
@@ -80,7 +75,7 @@ export const filterTodos = createAsyncThunk<FilteredTodoDto, string>(
     "todo/getFilteredTodoList",
     async(query, thunkAPI) => {
         try{
-            const response = await instance.get(`${_config.GetAPIURL()}/todo/filter/${query}`)
+            const response = await axios.get(`${_config.GetAPIURL()}/todo/filter/${query}`)
             return response.data
         } catch(error) {
             return thunkAPI.rejectWithValue(error)
@@ -92,7 +87,7 @@ export const createNewTodo = createAsyncThunk<Todo, CreateTodoDto>(
     "todo/createTodo",
     async (data, thunkAPI) => {
         try {
-            const response = await instance.post(`${_config.GetAPIURL()}/todo`, data);
+            const response = await axios.post(`${_config.GetAPIURL()}/todo`, data);
 
             //thunkAPI.dispatch(getTodos());
             return response.data;
@@ -109,7 +104,7 @@ export const completeTodoByID = createAsyncThunk<Todo, Todo>(
             let data = {
                 isComplete:true
             }
-            const response = await instance.put(`${_config.GetAPIURL()}/todo/${todo._id}`,data)
+            const response = await axios.put(`${_config.GetAPIURL()}/todo/${todo._id}`,data)
             
             return response.data
         } catch(error) {
@@ -122,7 +117,7 @@ export const deleteTodoByID = createAsyncThunk<Todo, Todo>(
     "todo/deleteTodo",
     async(todo, thunkAPI) => {
         try{
-            const response = await instance.delete(`${_config.GetAPIURL()}/todo/${todo._id}`)
+            const response = await axios.delete(`${_config.GetAPIURL()}/todo/${todo._id}`)
             thunkAPI.dispatch(getCompletedTodos());
             return response.data
         } catch(error) {
@@ -135,7 +130,7 @@ export const deleteAllTodos = createAsyncThunk<any>(
     "todo/deleteAllTodo",
     async(todo, thunkAPI) => {
         try{
-            const response = await instance.delete(`${_config.GetAPIURL()}/todo`)
+            const response = await axios.delete(`${_config.GetAPIURL()}/todo`)
             thunkAPI.dispatch(getCompletedTodos());
             thunkAPI.dispatch(getPendingTodos());
             return response.data
