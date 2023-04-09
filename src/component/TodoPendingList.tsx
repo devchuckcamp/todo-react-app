@@ -31,7 +31,7 @@ const columns: readonly Column[] = [
 
 
 const TodoListPendingTable: React.FC = () => {
-    const { pendingTodos, openTodoLoading } = useAppSelector(state => state.todos)
+    const { pendingTodos, openTodoLoading, filterActive } = useAppSelector(state => state.todos)
     const dispatch = useAppDispatch()
     const initPendingTodos = useCallback(async () => {
         await dispatch(getPendingTodos())

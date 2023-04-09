@@ -1,7 +1,7 @@
-import { useAppDispatch } from "../store/store"
+import { useAppDispatch, useAppSelector } from "../store/store"
 import Grid from '@mui/material/Grid';
 import { useState, useCallback, useEffect } from "react"
-import { filterTodos, getCompletedTodos, getPendingTodos, getTodos } from '../features/todos/todoSlice'
+import {  filterTodos, getCompletedTodos, getPendingTodos, getTodos, setSearchQuery, toggleFilter } from '../features/todos/todoSlice'
 import Box from "@mui/material/Box";
 import React from 'react';
 import { TextField } from "@mui/material";
@@ -9,31 +9,41 @@ import Stack from '@mui/material/Stack';
 
 const SearchTodoForm: React.FC = () => {
     const dispatch = useAppDispatch()
-    const [query, setQuery] = useState("")
-    const [filterActiive, setfilterActiive] = useState(false)
+    const [searchWord, setSearchWord] = useState("")
+
     const searchTodo = (event: React.KeyboardEvent<HTMLDivElement>) => {
         let val = (event.target as HTMLInputElement).value
-        console.log('refreshList', refreshList)
-        setQuery(val)
+
+        setSearchWord(val)
+        dispatch(setSearchQuery(val))
         if(val.length>=3){
-            setfilterActiive(true)
+            toggleFilterCB(true)
             searchQuery(val)
-        }
+        } 
         if(val === ""){
-            setfilterActiive(false)
+            toggleFilterCB(false)
             refreshList()
         }
     }
-    const searchQuery = useCallback(async (query:string) => {
-        console.log(query)
-        await dispatch(filterTodos(query))
+    const toggleFilterCB = useCallback(async (active:boolean) => {
+
+        await dispatch(toggleFilter(active))
     }, [])
 
+    const searchQuery = useCallback(async (query:string) => {
+
+        await dispatch(filterTodos(query))
+
+    }, [dispatch])
+   
+
     const refreshList = useCallback(async () => {
-        console.log('refresh')
+      
         await dispatch(getPendingTodos())
         await dispatch(getCompletedTodos())
-    }, [])
+        
+       
+    }, [dispatch])
 
 
     return (
@@ -43,7 +53,7 @@ const SearchTodoForm: React.FC = () => {
                 <TextField
                     hiddenLabel
                     id="search-todo-field"
-                    defaultValue={query}
+                    defaultValue={searchWord}
                     placeholder="Search Item"
                     variant="filled"
                     size="small"

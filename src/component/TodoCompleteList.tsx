@@ -30,7 +30,7 @@ const columns: readonly Column[] = [
 
 
 const TodoListCompleteTable: React.FC = () => {
-    const { completedTodos, completedLoading } = useAppSelector(state => state.todos)
+    const { completedTodos, completedLoading, filterActive } = useAppSelector(state => state.todos)
     const dispatch = useAppDispatch()
     const initTodos = useCallback(async () => {
         await dispatch(getCompletedTodos())

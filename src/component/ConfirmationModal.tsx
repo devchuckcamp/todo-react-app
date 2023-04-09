@@ -36,7 +36,6 @@ const ConfirmationModal: React.FC = () => {
         setOpen(false)
     }, [dispatch])
 
-
     return (
         <div>
             <Button variant="outlined" color="error" onClick={handleOpen}>Delete All</Button>

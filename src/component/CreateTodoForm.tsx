@@ -1,13 +1,14 @@
 import { useAppDispatch, useAppSelector } from "../store/store"
 import Grid from '@mui/material/Grid';
 import { useState, useCallback, useEffect, useRef } from "react"
-import { createNewTodo, createTodo } from '../features/todos/todoSlice'
+import { createNewTodo, filterTodos, getPendingTodos } from '../features/todos/todoSlice'
 import Box from "@mui/material/Box";
 import React from 'react';
 import { ButtonGroup, TextField } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import CreateTodoDto from "../interfaces/CreateTodoDto";
+import { current } from "@reduxjs/toolkit";
 
 interface InputChangeInterface {
     target: HTMLInputElement;
@@ -19,7 +20,8 @@ const CreateTodoForm: React.FC = () => {
     const [todoName, setTodoName] = useState("");
     
     const dispatch = useAppDispatch()
-    const { createdLoading, filterActive } = useAppSelector(state => state.todos)
+    let { createdLoading, filterActive, query } = useAppSelector(state => state.todos)
+
 
     const addTodo =  (event: React.MouseEvent<any>) => {
         event.preventDefault();
@@ -34,13 +36,20 @@ const CreateTodoForm: React.FC = () => {
         setTodoName(val)
        
     }
-    
+  
     const handleCreateTodo = useCallback(async (obj:CreateTodoDto) => {
         await dispatch(createNewTodo(obj))
+        
+        //refreshList()
         setTodoName("")
     }, [dispatch])
 
-    
+    // const refreshList =  useCallback(async () => {
+    //     console.log('filterActive', filterActive)
+    //     console.log('query', query)
+    //     await dispatch(filterTodos(query))
+    // }, [dispatch])
+
 
     return (
         <Box sx={{ flexGrow: 1, marginY: 1, marginX:1 }}>
