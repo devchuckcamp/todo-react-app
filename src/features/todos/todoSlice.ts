@@ -97,14 +97,14 @@ export const createNewTodo = createAsyncThunk<Todo, CreateTodoDto>(
     }
 )
 
-export const completeTodoByID = createAsyncThunk<Todo, Todo>(
+export const completeTodoByID = createAsyncThunk<FilteredTodoDto, Todo>(
     "todo/completeTodoByID",
     async(todo, thunkAPI) => {
         try{
             let data = {
-                isComplete:true
+                isComplete:!todo.isComplete
             }
-            const response = await axios.put(`${_config.GetAPIURL()}/todo/${todo._id}`,data)
+            const response = await axios.put(`${_config.GetAPIURL()}/todo/complete/${todo._id}`,data)
             
             return response.data
         } catch(error) {
@@ -165,6 +165,7 @@ export const todoSlice = createSlice({
         createTodo: (state, action: PayloadAction<Todo>) => {
             console.log('action', action)
             state.pendingTodos?.push(action.payload)
+            state.pendingTodos?.sort((a, b) => (a.name > b.name) ? 1 : -1)
             if(state.filterActive){
 
             }
@@ -226,11 +227,14 @@ export const todoSlice = createSlice({
         })
         // Complete Todo
         .addCase(completeTodoByID.fulfilled, (state, action) => {
-            state.pendingTodos = state?.pendingTodos!.filter(todo=> todo._id !== action.payload._id)!
-            state.completedTodos?.unshift(action.payload)!
-            if(state.completedTodos?.length! > 10){
-                state.completedTodos?.pop()
-            } 
+            // state.pendingTodos = state?.pendingTodos!.filter(todo=> todo._id !== action.payload._id)!
+            // state.completedTodos?.unshift(action.payload)!
+            // if(state.completedTodos?.length! > 10){
+            //     state.completedTodos?.pop()
+            // } 
+            // state.completedTodos?.sort((a, b) => (a.name > b.name) ? 1 : -1)
+            state.pendingTodos = action.payload.openTodos!
+            state.completedTodos = action.payload.completedTodos! 
             state.loading = false
         })
      
@@ -244,7 +248,7 @@ export const todoSlice = createSlice({
             } else {
                 state.pendingTodos?.unshift(action.payload)
             }
-            
+            state.pendingTodos?.sort((a, b) => (a.name > b.name) ? 1 : -1)
             state.createdLoading = false
         })
         .addCase(createNewTodo.rejected, (state) => {

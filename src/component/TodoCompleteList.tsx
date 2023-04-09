@@ -9,9 +9,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {  useCallback, useEffect } from "react"
-import { getCompletedTodos, deleteTodoByID } from '../features/todos/todoSlice'
+import { getCompletedTodos, deleteTodoByID, completeTodoByID } from '../features/todos/todoSlice'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Fab } from "@mui/material";
+import { Checkbox, Fab } from "@mui/material";
 
 
 
@@ -36,6 +36,15 @@ const TodoListCompleteTable: React.FC = () => {
         await dispatch(getCompletedTodos())
     }, [dispatch])
 
+    const onTodoComplete = (event: React.ChangeEvent<HTMLInputElement>, todo:Todo) => {
+        event.preventDefault()
+        compelteTodo(todo)
+        return true
+    }
+
+    const compelteTodo = useCallback(async (todo:Todo) => {
+        await dispatch(completeTodoByID(todo))
+    }, [dispatch])
     const onDeleteTodo = (event: React.MouseEvent<HTMLButtonElement>, todo: Todo) => {
         event.preventDefault()
         dispatch(deleteTodoByID(todo))
@@ -75,6 +84,10 @@ const TodoListCompleteTable: React.FC = () => {
                                             <TableRow hover tabIndex={-1} key={`completed-${todo._id}`}>
                                                 <TableCell>{todo.name} </TableCell>
                                                 <TableCell>
+                                                    <Checkbox
+                                                        color="primary"
+                                                        onChange={(e) => onTodoComplete(e, todo!)}
+                                                    />
                                                     <Fab size="small" color="error" onClick={(event => onDeleteTodo(event, todo))}  aria-label="Delete Task"><DeleteIcon/></Fab>
                                                 </TableCell>
                                             </TableRow>
