@@ -9,3 +9,14 @@ VITE_REACT_APP_API_VERSION_Prefix=V
 VITE_REACT_APP_API_VERSION=1
 VITE_REACT_APP_ENV_PRODUCTION=0
   ```
+ Notes:VITE_REACT_APP_API_PORT is the PORT for the API application
+ 
+ INSTALL the dependencies
+ ```sh
+ yarn install or npm install
+   ```
+THEN  run the application
+ ```sh
+ yarn dev or npm dev
+ ```
+  
